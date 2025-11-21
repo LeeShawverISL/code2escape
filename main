@@ -211,7 +211,7 @@
   <header>
     <div class="nav">
       <div class="brand">
-        <img src="Design Logo.png" alt="International School of Latvia Design" class="logo" />
+        <img src="Design Logo.png">
 <h1 class="site-title">
   <span class="title-main">Code 2 Escape</span>
   <span class="title-sub">G9 Design</span>
