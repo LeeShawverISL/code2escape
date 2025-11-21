@@ -80,7 +80,13 @@
     }
     .nav{ display:flex; align-items:center; gap:16px; padding:14px 24px; }
     .brand{ display:flex; align-items:center; gap:12px; }
-    .logo{ height:34px; width:auto; display:block; }
+    
+    .logo {
+      max-width: 150px;   /* adjusts overall size */
+      height: auto; 
+      display:block;/* keeps proportions */
+}
+
     .tag{
       font-size:12px;
       color:var(--muted);
