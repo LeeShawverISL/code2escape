@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Code 2 Escape — G9 Design (Escape → Unlock Unit)</title>
+  <style>
+    :root{
+      --bg:#0f172a;        /* slate-900 */
+      --panel:#111827;     /* gray-900 */
+      --muted:#94a3b8;     /* slate-400 */
+      --text:#e5e7eb;      /* gray-200 */
+      --accent:#22d3ee;    /* cyan-400 */
+      --accent-2:#a78bfa;  /* violet-400 */
+      --ok:#34d399;        /* emerald-400 */
+      --warn:#f59e0b;      /* amber-500 */
+      --err:#f87171;       /* red-400 */
+      --card:#0b1220;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+.site-title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.site-title .title-main {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  white-space: nowrap;   /* <-- forces Code 2 Escape to stay on one line */
+}
+
+.site-title .title-sub {
+  display: block;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--muted); /* or another color, e.g. var(--accent-2) */
+}
+
+
+    /* Hide the top Status + Hub section when viewing A, B, or C */
+    /* Hide the top Status + Hub section when viewing A, B, or C */
+    body.task-page .grid,
+    body.task-page .grid-75-25,
+    body.task-page #overview {
+      display: none !important;
+}
+
+    h3 {
+      color: MediumSeaGreen;
+    }
+        h2 {
+      color: LightCoral;
+    }
+    h5 {
+      color: red;
+      font-size: 1.3em;
+    }
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(167,139,250,.15), transparent 60%),
+        radial-gradient(900px 600px at 100% 0%, rgba(34,211,238,.12), transparent 60%),
+        var(--bg);
+    }
+    .container{ max-width:1100px; margin:0 auto; padding:24px; }
+
+    /* Header / branding / menus */
+    header{
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(10px);
+      background:rgba(15,23,42,.8);
+      border-bottom:1px solid rgba(148,163,184,.15);
+      z-index:50;
+    }
+    .nav{ display:flex; align-items:center; gap:16px; padding:14px 24px; }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{ height:34px; width:auto; display:block; }
+    .tag{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(148,163,184,.25);
+      padding:2px 8px;
+      border-radius:999px;
+    }
+    .spacer{ flex:1; }
+    .btn{
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:#0b1220;
+      border:none;
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid rgba(148,163,184,.25);
+      box-shadow:none;
+    }
+    .btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+    .tabs{
+      display:none; /* hidden until unlock */
+      align-items:center;
+      gap:10px;
+      margin-left:16px;
+    }
+    .tabs a,
+    .tabs summary{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+      cursor:pointer;
+    }
+    .tabs a:hover,
+    .tabs summary:hover{
+      background:rgba(148,163,184,.15);
+    }
+    .tabs details{ position:relative; }
+    .tabs details[open] summary{ background:rgba(148,163,184,.15); }
+    .tabs details ul{
+      position:absolute;
+      right:0;
+      top:36px;
+      list-style:none;
+      margin:0;
+      padding:8px;
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.25);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+    }
+    .tabs details li{ white-space:nowrap; }
+    .tabs details a{ display:block; padding:8px 10px; }
+
+    /* Cards + layout */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid rgba(148,163,184,.18);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .inner{ padding:22px; }
+    .kicker{
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      font-size:12px;
+      color:var(--accent);
+    }
+    .muted{ color:var(--muted); }
+    .success{ color:var(--ok); }
+    .warn{ color:var(--warn); }
+    .err{ color:var(--err); }
+    .hidden { display:none !important; }
+    .pill{
+      display:inline-block;
+      padding:2px 8px;
+      font-size:12px;
+      border-radius:999px;
+      background:rgba(34,211,238,.15);
+      color:var(--accent);
+      border:1px solid rgba(34,211,238,.35);
+    }
+
+    .grid-75-25{
+      display:grid;
+      grid-template-columns: 3fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 900px){
+      .grid-75-25{ grid-template-columns: 1fr; }
+    }
+
+    /* Inputs / puzzles */
+    .puzzle{ display:flex; flex-direction:column; gap:18px; }
+    .input{ display:flex; gap:8px; align-items:center; }
+    .input input[type="text"]{
+      flex:1;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,.25);
+      background:#0c1222;
+      color:var(--text);
+    }
+
+    .callout{
+      border-left:3px solid var(--accent);
+      padding:10px 14px;
+      background:rgba(167,139,250,.08);
+      border-radius: 0 12px 12px 0;
+    }
+    .toc a{ color:var(--accent); text-decoration:none; }
+    .toc a:hover{ text-decoration:underline; }
+
+    table{ color:var(--text); }
+    th, td{ font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <img src="Design Logo.png" alt="International School of Latvia Design" class="logo" />
+<h1 class="site-title">
+  <span class="title-main">Code 2 Escape</span>
+  <span class="title-sub">G9 Design</span>
+</h1>
+        <!-- Top tabs (hidden until unlocked) -->
+        <nav id="topTabs" class="tabs" aria-label="Primary">
+          <a href="#concepts">Overview</a>
+          <details>
+            <summary>Task Sheet</summary>
+            <ul>
+              <li><a href="#/a">Criterion A</a></li>
+              <li><a href="#/b">Criterion B</a></li>
+              <li><a href="#/c">Criterion C</a></li>
+            </ul>
+          </details>
+          <a href="#vocabulary">Vocabulary</a>
+          <a href="#flint">Flint AI</a>
+          <details>
+            <summary>Academic Honesty</summary>
+            <ul>
+              <li><a href="https://docs.google.com/document/d/1K0q1vxMQFwqYiC5uF4AvcFR9QXKsGgPpb6Rhm82iGH8/edit?usp=sharing" target="_blank" rel="noopener">AI Assessment Scale</a></li>
+              <li><a href="https://docs.google.com/document/d/1awPmS7EZNABzvbYUWx904atD9OMJn3mVZJoHzvQg65I/edit?tab=t.0#heading=h.202p3bftjid1" target="_blank" rel="noopener">ISL Academic Integrity Policy</a></li>
+            </ul>
+          </details>
+        </nav>
+      </div>
+
+      <div class="spacer"></div>
+      <button id="resetBtn" class="btn secondary" title="For teachers/demo">Reset initiation</button>
+      <button id="unlockBtn" class="btn">Go to Unit</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- INITIATION / MINI ESCAPE -->
+    <section id="gate" class="card">
+      <div class="inner">
+        <div class="kicker">Initiation</div>
+        <h2>Unlock the Unit</h2>
+        <p class="muted">
+          Prove you're ready by completing this tiny two-step escape. Once you unlock it on this browser,
+          the full unit stays open for you.
+        </p>
+
+        <div class="puzzle">
+          <div class="card" style="background:linear-gradient(180deg, rgba(34,211,238,.08), transparent); border-color:rgba(34,211,238,.35)">
+            <div class="inner">
+              <h3 style="margin:0 0 6px 0">Puzzle 1 — Hidden in plain sight</h3>
+              <p class="muted">
+                Your first clue is found in the Google Doc titled "TASK SHEET - MYP4 Unit 2 - Bits & Bytes 3.0"
+              </p>
+              <div class="input">
+                <input id="p1" type="text" placeholder="your answer (one word)" autocomplete="off" />
+                <span id="p1Status" class="pill">pending</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="background:linear-gradient(180deg, rgba(167,139,250,.08), transparent); border-color:rgba(167,139,250,.35)">
+            <div class="inner">
+              <h3 style="margin:0 0 6px 0">Puzzle 2 — Cipher</h3>
+              <p class="muted">
+                Decode this ROT13 clue to reveal a 5-letter word you will need below:
+                <strong class="pill" style="background:rgba(167,139,250,.15); color:var(--accent-2); border-color:rgba(167,139,250,.4)">syvag</strong>
+              </p>
+              <div class="input">
+                <input id="p2" type="text" placeholder="decoded word (5 letters)" autocomplete="off" />
+                <span id="p2Status" class="pill">pending</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="border-style:dotted;">
+            <div class="inner">
+              <h3 style="margin:0 0 6px 0">Final Lock</h3>
+              <p class="muted">When both puzzles are correct, the lock will open. No caps required.</p>
+              <button id="openBtn" class="btn" disabled>Open the Unit</button>
+              <span id="finalStatus" class="pill" style="margin-left:8px">locked</span>
+              <details style="margin-top:12px">
+                <summary>Need a hint?</summary>
+                <ul class="muted">
+                  <li>Look closer. The answer is right on the page of the Google Doc.</li>
+                  <li>ROT13 means each letter shifts by 13. Try the alphabet wheel.</li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN UNIT CONTENT (HIDDEN UNTIL UNLOCKED) -->
+    <section id="unit" class="card hidden" aria-hidden="true">
+      <div class="inner content">
+
+        <!-- Top row: 75% status / 25% next summative -->
+        <div class="grid-75-25" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="inner">
+              <h2>Status</h2>
+              <p class="muted">✅ Unlocked on this browser</p>
+              <hr style="border-color:rgba(148,163,184,.2)">
+              <h3 style="margin:14px 0 6px 0">At a glance</h3>
+              <ul class="muted" style="padding-left:18px">
+                <li>Focus: Intro to HTML/CSS/JS via digital escape room</li>
+                <li>Collaboration: Pairs build a room; class assembles one experience</li>
+                <li>Platform: Browser-based, no installs</li>
+              </ul>
+              <p class="callout" style="margin-top:12px">
+                <strong>Tip:</strong> Once unlocked, this device/browser remembers you.
+                Clearing site data or using Private/Incognito resets access.
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="inner">
+              <h2 style="color: var(--err)">Summative Dates</h2>
+              <p id="nextSummative" class="muted">
+                Criterion A due in ManageBac — Sunday, January ??, 21:00<br><br>
+                Criterion B due in ManageBac — Sunday, January ??, 21:00<br><br>
+                Criterion C due in ManageBac — Sunday, January ??, 21:00<br><br>
+
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="kicker">Unit Materials</div>
+        <h2 id="overview">Code 2 Escape — Unit Hub</h2>
+
+        <div class="toc" style="margin:10px 0 18px 0">
+          <strong>Quick Links:</strong>
+          <a href="#concepts">Conceptual Framework</a> ·
+          <a href="#grasp">GRASP</a> ·
+          <a href="#vocabulary">Vocabulary</a> ·
+          <a href="#flint">Flint AI</a>
+        </div>
+
+        <section id="homePage">
+          <article id="concepts">
+            <h3>Conceptual Framework</h3>
+            <p>
+              <em>Designing for problem-solving under constraints.</em> We will learn core web technologies
+              (HTML, CSS, JavaScript) by creating a themed digital escape room. You'll apply user-centred design,
+              rapid prototyping, and iterative testing to craft puzzles that are fair, learnable, and fun.
+            </p>
+            <ul>
+              <li><strong>Key Concepts:</strong> systems, function, communication</li>
+              <li><strong>Related Concepts:</strong> ergonomics, collaboration, evaluation</li>
+              <li><strong>Global Context:</strong> Scientific and technical innovation</li>
+            </ul>
+          </article>
+
+          <article id="grasp">
+            <h3>GRASP Task Summary</h3>
+            <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid rgba(148,163,184,.3);">Element</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid rgba(148,163,184,.3);">Description</th>
+              </tr>
+              <tr>
+                <td style="padding:8px; vertical-align:top;"><strong>Goal</strong></td>
+                <td style="padding:8px;">
+                  Your goal is to design and code an <strong>interactive web-based puzzle</strong> that forms part of a
+                  class-wide <strong>digital escape room</strong>. Each puzzle helps players rebuild ISL’s systems and
+                  “survive” a climate disaster scenario. Your work should show creativity, functionality, and thoughtful
+                  user experience design.
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px; vertical-align:top;"><strong>Role</strong></td>
+                <td style="padding:8px;">
+                  You are a <strong>digital designer and coder</strong> working with a partner and supported by
+                  <em>Flint AI</em>. Your role is to apply the design cycle to create a puzzle that is visually clear,
+                  functional, and connected to the class narrative. You will research, prototype, code, test, and publish
+                  your design like a professional developer.
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px; vertical-align:top;"><strong>Audience</strong></td>
+                <td style="padding:8px;">
+                  Your audience is the entire ISL community and your product will be on display for ISL's annual
+                  <strong>Bits &amp; Bytes</strong> event in April. The experience you create should be easy to
+                  understand, visually engaging, and challenging to solve.
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px; vertical-align:top;"><strong>Situation</strong></td>
+                <td style="padding:8px;">
+                  A global climate catastrophe has caused a breakdown of ISL’s systems — power, water, communication,
+                  and security are offline. You and your partner are part of the emergency digital response team.
+                  Each team must rebuild one critical subsystem by designing a digital puzzle that restores part of
+                  ISL’s operations. When combined, all puzzles form a complete survival system.
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:8px; vertical-align:top;"><strong>Product / Performance</strong></td>
+                <td style="padding:8px;">
+                  You will create a <strong>coded puzzle webpage</strong> using <strong>HTML, CSS, and JavaScript</strong>.
+                  It must:
+                  <ul>
+                    <li>Include at least one <strong>interactive element</strong> (such as a button, input, riddle, or logic challenge).</li>
+                    <li>Be styled and formatted clearly for the user.</li>
+                    <li>Contribute meaningfully to the overall escape room storyline.</li>
+                    <li>Be appropriate for your audience.</li>
+                  </ul>
+                </td>
+              </tr>
+             </table>
+          </article>
+
+          <article id="assessment">
+            <h3>Assessment</h3>
+            <p>
+              Assessed against MYP Design criteria <strong>A–C</strong> (Inquiring, Developing Ideas, Creating the Solution).
+              <em>Full Task Sheet, detailed instructions, and student examples are linked above in the Task Sheet menu.</em>
+            </p>
+          </article>
+
+          <article id="resources">
+            <h3>Starter Code &amp; Resources</h3>
+            <ul>
+              <li><strong>Starter template:</strong> <a href="#" id="starterLink">Starter Template</a> (downloads <code>index.html</code>)</li>
+              <li><strong>Debugging:</strong>
+                <a href="https://developer.chrome.com/docs/devtools/" target="_blank" rel="noopener">Chrome DevTools</a> ·
+                <a href="https://firefox-source-docs.mozilla.org/devtools-user/" target="_blank" rel="noopener">Firefox DevTools</a> ·
+                <a href="https://developer.apple.com/safari/tools/" target="_blank" rel="noopener">Safari DevTools</a>
+              </li>
+            </ul>
+          </article>
+
+          <article id="vocabulary">
+            <h3>Vocabulary</h3>
+            <ul>
+              <li><strong>HTML</strong> — Structure of a page using tags like <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;img&gt;</code>.</li>
+              <li><strong>CSS</strong> — Styles (colors, layout). Example: <code>h1 { font-size: 2rem; }</code></li>
+              <li><strong>JavaScript</strong> — Behaviors/interactivity. Example: <code>button.onclick = function () { alert('hi'); };</code></li>
+              <li><strong>Tag</strong> — The keyword in angle brackets, e.g., <code>&lt;img&gt;</code>.</li>
+              <li><strong>Element</strong> — A tag plus its content/attributes, e.g., <code>&lt;img src="cat.png" alt="cat" /&gt;</code>.</li>
+              <li><strong>Attribute</strong> — Extra info inside a tag, e.g., <code>src</code>, <code>alt</code>, <code>href</code>.</li>
+              <li><strong>Class</strong> — A reusable style hook, e.g., <code>class="button"</code>.</li>
+              <li><strong>ID</strong> — A unique identifier for one element, e.g., <code>id="start"</code>.</li>
+              <li><strong>DOM</strong> — The live tree of elements JS can read/change.</li>
+              <li><strong>Variable</strong> — A named container for data, e.g., <code>var score = 0;</code></li>
+              <li><strong>Function</strong> — A reusable block of code, e.g., <code>function add(a,b){ return a+b; }</code></li>
+              <li><strong>Event</strong> — Something that happens (click, keypress), e.g., <code>addEventListener('click', ...);</code></li>
+              <li><strong>Console</strong> — JS messages window. Example: <code>console.log('check');</code></li>
+              <li><strong>Link</strong> — Clickable navigation, e.g., <code>&lt;a href="#/a"&gt;Criterion A&lt;/a&gt;</code></li>
+              <li><strong>Image</strong> — <code>&lt;img src="..." alt="..." /&gt;</code> for pictures (PNG/JPG/SVG).</li>
+            </ul>
+          </article>
+
+          <article id="flint">
+            <h3>Flint AI</h3>
+            <p class="muted">
+              Guidance on using Flint AI responsibly to scaffold code, debug, and reflect. (Content to be added.)
+            </p>
+          </article>
+        </section>
+
+        <!-- Criterion pages (routed) -->
+        <section id="pageA" class="hidden">
+  <h2>Criterion A — Inquiring and Analysing</h2>
+<h5>Due Date: December XX, 21:00</h5>
+
+  <!-- A2 -->
+
+  <hr>
+
+  <h3>A2. Research Plan</h3>
+  <em>
+    <p style="color:lemonchiffon;">A2: <b>construct a detailed</b> research plan, which <b>identifies and prioritizes</b>
+     the primary and secondary research needed to <b>develop</b> a solution to the
+     problem independently</p>
+  </em>
+  <p><strong>Task:</strong><br>
+    This task will be completed with your plan in C1. There is nothing you need in your portfolio at this time for A2.
+  </p>
+
+  <!-- A3 -->
+
+  <hr>
+
+  <h3>A3. Analyse existing products</h3>
+  <em>
+    <p style="color:lemonchiffon;">A3: <b>analyse a range of</b> existing products that inspire a solution to the problem in detail</p>
+  </em>
+  <p><strong>Task:</strong><br>
+    Explore and analyze at least three existing digital escape rooms, puzzles, or interactive
+    games that use coding or design features similar to what you want to make.
+  </p>
+
+  <p><strong>In your portfolio:</strong></p>
+  <ul>
+    <li>Take screenshots or link to examples.</li>
+    <li>Describe how each one looks and works — what do users do?</li>
+    <li>Identify the strengths (what works well) and weaknesses (what could be improved).</li>
+    <li>Explain how these examples might inspire your own puzzle idea or design choices.</li>
+  </ul>
+
+  <p><strong>Tip:</strong><br>
+    Look for <b>SIMPLE</b> examples because because you are new to HTML and Javascript.<br>
+    Look for things like navigation, interactivity, visuals, storytelling, or use of code
+    (HTML/CSS/JavaScript). You’re not just describing — you’re analyzing why those design
+    choices are effective.
+  </p>
+
+  <!-- A4 -->
+
+  <hr>
+
+  <h3>A4. Design Brief</h3>
+  <em>
+    <p style="color:lemonchiffon;">A4: <b>develop a detailed</b> design brief, which <b>summarizes</b> the analysis of relevant research.</p>
+  </em>
+  <p><strong>Task:</strong><br>
+    Write a clear overview of the design challenge you will be working on this unit.
+    This is not about your specific puzzle yet — it’s a summary of the overall problem,
+    your learning goals, and the context you are designing for.
+  </p>
+
+  <p><strong>In your portfolio, include the following:</strong></p>
+  <ul>
+    <li><strong>The Problem / Story Context</strong><br>
+      Summarize the ISL Apocalypse scenario in your own words.<br>
+      Explain what systems have failed and why digital solutions are needed.<br>
+      Describe why an escape room with puzzles is being used as the recovery system.
+    </li>
+
+    <li><strong>Your General Goal as a Designer</strong><br>
+      Explain that you will learn and apply HTML, CSS, and JavaScript.<br>
+      Describe how you will work with Flint AI as a coding partner to develop skills and solve problems.<br>
+      State that you will eventually design and code one puzzle that contributes to the class escape room.
+    </li>
+
+    <li><strong>Collaboration Plan</strong><br>
+      Explain how you will work with your partner (roles, communication, shared responsibilities).<br>
+      Describe how your work will connect with the whole class to create one linked escape room experience.
+    </li>
+
+    <li><strong>Constraints and Considerations</strong><br>
+      List any limitations you already know (time, beginner coding ability, using free platforms like Replit/Glitch,
+      browser compatibility, simple JS only, etc.).<br>
+      Mention any important considerations for later (user experience, accessibility, clarity, theme consistency).
+    </li>
+  </ul>
+
+  <p><strong>Tip:</strong><br>
+    This section sets the stage for the entire unit. Think of it as your “mission briefing” —
+    What’s going on? What’s your role? What are you trying to achieve? What limits will you face?
+  </p>
+<hr>
+<h2>Need more help with Criterion A?</h2>
+<a href="https://drive.google.com/drive/folders/1Cz-kR9sVVHV1MdIvK4w44SMnhrF41imw?usp=drive_link" target="_blank" rel="noopener">Here are detailed instructions and students examples for Criterion A.</a><br><br>
+<hr>
+
+  <p class="muted" style="margin-top:12px">
+    See also:
+    <a href="https://docs.google.com/document/d/1K0q1vxMQFwqYiC5uF4AvcFR9QXKsGgPpb6Rhm82iGH8/edit?usp=sharing" target="_blank" rel="noopener">AI Assessment Scale</a> ·
+    <a href="https://docs.google.com/document/d/1awPmS7EZNABzvbYUWx904atD9OMJn3mVZJoHzvQg65I/edit?tab=t.0#heading=h.202p3bftjid1" target="_blank" rel="noopener">ISL Academic Integrity Policy</a>
+  </p>
+</section>
+
+<section id="pageB" class="hidden">
+  <h2>Criterion B — Developing Ideas</h2>
+<h5>Due Date: December XX, 21:00</h5>
+
+  <!-- B1 -->
+
+  <hr>
+
+  <h3>B1. Develop Design Specifications</h3>
+  <em>
+    <p style="color:lemonchiffon;">B1: <b>develop detailed</b> design specifications, which <b>explain</b> the success criteria for the design of a solution based on the analysis of the research</p>
+  </em>
+
+  <p><strong>Task:</strong><br>
+    Create a list of clear, measurable success criteria for your future puzzle. These are the
+    requirements your final product must meet. You will use this list later to test and evaluate
+    your work.
+  </p>
+
+  <p><strong>In your portfolio, include:</strong></p>
+  <ul>
+    <li><strong>Functionality requirements</strong><br>
+      What should the puzzle do?<br>
+      What interactive element(s) must it include?
+    </li>
+    <li><strong>Usability / user experience requirements</strong><br>
+      What should players be able to understand easily?<br>
+      How should your instructions or feedback appear?
+    </li>
+    <li><strong>Aesthetic requirements</strong><br>
+      What style, visuals, or layout expectations do you already have?
+    </li>
+    <li><strong>Story and theme requirements</strong><br>
+      What is the opening and closing script that was assigned to you?<br>
+      How will your puzzle fit the ISL Apocalypse narrative?<br>
+      What “system” might it eventually help restore?
+    </li>
+  </ul>
+
+  <p><strong>Tip:</strong><br>
+    Write these as specific, testable statements, not vague ideas. For example:
+    “The puzzle must include at least one interactive input the user must solve to proceed.”
+  </p>
+
+  <!-- B2 -->
+
+  <hr>
+
+  <h3>B2. Develop Design Ideas (Sketches + Concepts)</h3>
+  <em>
+    <p style="color:lemonchiffon;">B2: <b>develop a range</b> of feasible design ideas, using an appropriate medium(s) and
+    <b>detailed annotation</b>, which can be <b>correctly</b> interpreted by others</p>
+  </em>
+
+  <p><strong>Task:</strong><br>
+    Generate several different ideas for your puzzle’s layout, theme, and interactive style —
+    even though you haven’t finalized the puzzle logic yet.
+  </p>
+
+  <p><strong>In your portfolio, include:</strong></p>
+  <ul>
+    <li><strong>2–3 sketches or mockups</strong><br>
+      These can be drawn by hand or digitally.<br>
+      Show possible layouts (buttons, boxes, text areas, images, clues, etc.).
+    </li>
+    <li><strong>A short description under each idea</strong><br>
+      What is the basic concept of this idea?<br>
+      How might it creatively expand on the ISL Apocalypse story?<br>
+      How might a user interact with the page?
+    </li>
+  </ul>
+
+  <p><strong>Tip:</strong><br>
+    Focus on exploring possibilities, not perfect accuracy. This is creative thinking time.
+  </p>
+
+  <!-- B3 & B4 -->
+
+  <hr>
+
+  <h3>B3–B4. Final Detailed Design Plan</h3>
+  <em>
+    <p style="color:lemonchiffon;">B3: <b>present</b> the chosen design and <b>justify fully and critically</b> its selection with
+    <b>detailed</b> reference to the design specification<br>
+    B4: <b>develop accurate and detailed</b> planning drawings/diagrams and
+    <b>outline</b> requirements for the creation of the chosen solution.</p>
+  </em>
+
+  <p><strong>Task:</strong><br>
+    Choose your best idea from B2 and turn it into a clear, detailed design plan that shows what your
+    puzzle will look like and how the interaction will work. This will guide your coding in Criterion C.
+  </p>
+
+  <p><strong>In your portfolio, include:</strong></p>
+  <ul>
+    <li><strong>1. Final Annotated Design Sketch</strong><br>
+      Create a detailed sketch or mockup of your final puzzle design.<br>
+      Label key elements, such as:
+      buttons, inputs/text boxes, images or icons, clue areas, and messages or feedback space.<br>
+      Your annotations should explain what each element does or why it’s there.<br><br>
+    </li>
+
+    <li><strong>2. Interactive Flow Summary</strong><br>
+      Write a short explanation (3–6 steps) describing how the user will interact with your puzzle
+      from start to finish.<br><br>
+      <em>Example format:</em><br>
+      – The user reads the scenario or clue.<br>
+      – The user enters a code / clicks a button / drags an item, etc.<br>
+      – JavaScript checks the user’s action.<br>
+      – The page gives feedback (correct/incorrect).<br>
+      – A clue is revealed or the “system” is restored.<br><br>
+      This doesn’t need to be a full flowchart — just a clear description of how the interaction works.<br><br>
+    </li>
+
+    <li><strong>3. Justification of Your Final Design</strong><br>
+      Write a short paragraph explaining:<br>
+      – Why you chose this design over your other ideas<br>
+      – How it meets your design specifications from B1<br>
+      – How it supports the ISL Apocalypse story<br>
+      – How it will create a good user experience (clarity, accessibility, challenge, visuals)
+    </li>
+  </ul>
+
+  <p><strong>Tip:</strong><br>
+    Your final design should make sense to someone who has never seen your idea before. If they can
+    understand what your puzzle will look like and how it will work, you’ve done this step correctly.
+  </p>
+<hr>
+<h2>Need more help with Criterion B?</h2>
+<a href="https://drive.google.com/drive/folders/1aJDwrjx16B0YfD_uxdStE631LfJtXool?usp=drive_link" target="_blank" rel="noopener">Here are detailed instructions and students examples for Criterion B.</a><br><br>
+<hr>
+
+  <p class="muted" style="margin-top:12px">
+    See also:
+    <a href="https://docs.google.com/document/d/1K0q1vxMQFwqYiC5uF4AvcFR9QXKsGgPpb6Rhm82iGH8/edit?usp=sharing" target="_blank" rel="noopener">AI Assessment Scale</a> ·
+    <a href="https://docs.google.com/document/d/1awPmS7EZNABzvbYUWx904atD9OMJn3mVZJoHzvQg65I/edit?tab=t.0#heading=h.202p3bftjid1" target="_blank" rel="noopener">ISL Academic Integrity Policy</a>
+  </p>
+</section>
+
+
+<section id="pageC" class="hidden">
+  <h2>Criterion C — Creating the Solution</h2>
+<h5>Due Date: December XX, 21:00</h5>
+
+
+  <!-- C1 -->
+
+  <hr>
+
+  <h3>C1. Plan for Research & Development</h3>
+  <em>
+    C1: <b>construct a detailed and logical plan</b>, which <b>describes</b> the efficient
+    use of time and resources, sufficient for peers to be able to follow to
+    create the solution
+  </em>
+
+  <p><strong>Task:</strong><br>
+    Before you start building, explain <strong>how</strong> you plan to turn your design into a
+    functioning coded puzzle — and what you still need to learn. This strand also supports
+    your research (A2) by identifying what you need to find out to make your solution work.
+  </p>
+
+  <p><strong>In your portfolio, include:</strong></p>
+  <ul>
+    <li>
+      <strong>Coding Plan (Step-by-Step Build Plan)</strong><br>
+      Write a simple, clear plan describing how you will build your puzzle in HTML, CSS, and
+      JavaScript.<br>
+      <em>Example structure:</em><br>
+      – Build the basic HTML structure (layout, headings, input boxes, buttons).<br>
+      – Add CSS to create the layout and style.<br>
+      – Write JavaScript to check the user’s input.<br>
+      – Add feedback messages and clue reveals.<br>
+      – Test everything and fix errors.<br>
+      Keep it realistic and achievable.
+    </li>
+
+    <li>
+      <strong>What You Need to Learn (A2 Integration)</strong><br>
+      List the skills or knowledge you still need in order to build your puzzle (for example:
+      how to check input with JavaScript, how to show/hide elements, how to style buttons).<br>
+      Briefly explain <strong>how you will learn</strong> these skills, such as:<br>
+      – asking your teacher<br>
+      – using Flint AI<br>
+      – checking approved tutorials<br>
+      – experimenting with small test code
+    </li>
+  </ul>
+
+  <p><strong>Goal:</strong><br>
+    By the end of C1, you should know <em>what</em> you’re building, <em>how</em> you’ll build it, and
+    <em>what you need to learn</em> to make it happen.
+  </p>
+
+  <!-- C2 -->
+
+  <hr>
+
+  <h3>C2. Demonstrate Technical Skills</h3>
+  <em>
+    C2: <b>demonstrate excellent</b> technical skills when making the solution.
+  </em>
+
+  <p><strong>Task:</strong><br>
+    Turn your design into a working coded product using HTML, CSS, and JavaScript. Focus on
+    writing clean, readable code and using your plan from C1 to guide your work.
+  </p>
+
+  <p class="muted">
+    <em>Portfolio note:</em> There is nothing extra you need to add to your portfolio
+    specifically for C2. Your evidence will come from your final product and the way you
+    describe and justify it in C3 and C4.
+  </p>
+
+  <!-- C3 -->
+
+  <hr>
+
+  <h3>C3. Present Your Final Solution</h3>
+  <em>
+    C3: follows the plan to <b>create</b> the solution, which functions <b>as intended</b> and
+    is presented <b>appropriately</b>
+  </em>
+
+  <p><strong>Task:</strong><br>
+    When your puzzle is finished, present it clearly and professionally.
+  </p>
+
+  <p><strong>In your portfolio, include:</strong></p>
+  <ul>
+    <li>
+      <strong>Link to Your Final Web Page</strong><br>
+      Provide the URL to your working puzzle (Replit, Glitch, GitHub Pages, etc.).
+    </li>
+    <li>
+      <strong>Final Screenshots</strong><br>
+      Show the finished interface and the main interaction(s).
+    </li>
+  </ul>
+
+  <!-- C4 -->
+
+  <hr>
+
+  <h3>C4. Justify Changes</h3>
+  <em>
+    C4: fully <b>justify</b> changes made to the chosen design and plan when making
+    the solution.
+  </em>
+
+  <p><strong>Task:</strong><br>
+    During building, you might improve your layout, change interactions, or simplify features.
+    This strand is about <strong>explaining why</strong> those changes were sensible.
+  </p>
+
+  <p><strong>In your portfolio, write a short paragraph covering:</strong></p>
+  <ul>
+    <li>What changes you made to your original design or plan.</li>
+    <li><em>Why</em> these changes improved the design or functionality.</li>
+    <li>Whether they helped you meet your design specifications from B1.</li>
+    <li>How they affected the user experience (clarity, challenge, accessibility, visuals).</li>
+  </ul>
+
+  <p><strong>Keep the focus on design logic and reasoning.</strong></p>
+<hr>
+<h2>Need more help with Criterion C?</h2>
+<a href="https://drive.google.com/drive/folders/1KMGdUwnXwjeCVZdDq4pjkfdbnnO6jauw" target="_blank" rel="noopener">Here are detailed instructions and students examples for Criterion C.</a><br><br>
+<hr>
+
+  <p class="muted" style="margin-top:12px">
+    See also:
+    <a href="https://docs.google.com/document/d/1K0q1vxMQFwqYiC5uF4AvcFR9QXKsGgPpb6Rhm82iGH8/edit?usp=sharing" target="_blank" rel="noopener">AI Assessment Scale</a> ·
+    <a href="https://docs.google.com/document/d/1awPmS7EZNABzvbYUWx904atD9OMJn3mVZJoHzvQg65I/edit?tab=t.0#heading=h.202p3bftjid1" target="_blank" rel="noopener">ISL Academic Integrity Policy</a>
+  </p>
+</section>
+
+
+      </div>
+    </section>
+
+    <noscript>
+      <p class="card" style="padding:14px">This unit requires JavaScript for the initiation step. Please enable JavaScript.</p>
+    </noscript>
+  </main>
+<script>
+  // Simple persistence key
+  var KEY = 'code_to_escape_unlocked_v1';
+
+  // Grab elements
+  var gate        = document.getElementById('gate');
+  var unit        = document.getElementById('unit');
+  var unlockBtn   = document.getElementById('unlockBtn');
+  var resetBtn    = document.getElementById('resetBtn');
+  var p1          = document.getElementById('p1');
+  var p2          = document.getElementById('p2');
+  var p1Status    = document.getElementById('p1Status');
+  var p2Status    = document.getElementById('p2Status');
+  var openBtn     = document.getElementById('openBtn');
+  var finalStatus = document.getElementById('finalStatus');
+  var topTabs     = document.getElementById('topTabs');
+
+  function clean(str){
+    if (!str) return '';
+    return str.replace(/^\s+|\s+$/g, '').toLowerCase();
+  }
+
+  function isUnlocked(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY) || 'null');
+      return v && v.v === 1;
+    } catch (e){
+      return false;
+    }
+  }
+
+  function setUnlocked(yes){
+    try {
+      if (yes){
+        localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), v: 1 }));
+      } else {
+        localStorage.removeItem(KEY);
+      }
+    } catch (e){}
+    reflect();
+  }
+
+  function reflect(){
+    var unlocked = isUnlocked();
+
+    if (gate){
+      if (unlocked) gate.classList.add('hidden');
+      else gate.classList.remove('hidden');
+    }
+    if (unit){
+      if (unlocked) unit.classList.remove('hidden');
+      else unit.classList.add('hidden');
+      unit.setAttribute('aria-hidden', unlocked ? 'false' : 'true');
+    }
+    if (unlockBtn){
+      unlockBtn.textContent = unlocked ? 'Unit is Unlocked' : 'Go to Unit';
+      unlockBtn.disabled = !unlocked;
+    }
+    if (topTabs){
+      topTabs.style.display = unlocked ? 'flex' : 'none';
+    }
+  }
+
+  function checkPuzzles(){
+    var ok1 = clean(p1 && p1.value) === 'compassion';
+    var ok2 = clean(p2 && p2.value) === 'flint';
+
+    if (p1Status){
+      p1Status.textContent = ok1 ? 'correct' : 'pending';
+      p1Status.style.background = ok1 ? 'rgba(52,211,153,.15)' : '';
+      p1Status.style.color = ok1 ? 'var(--ok)' : '';
+    }
+    if (p2Status){
+      p2Status.textContent = ok2 ? 'correct' : 'pending';
+      p2Status.style.background = ok2 ? 'rgba(52,211,153,.15)' : '';
+      p2Status.style.color = ok2 ? 'var(--ok)' : '';
+    }
+    if (openBtn){
+      openBtn.disabled = !(ok1 && ok2);
+    }
+    if (finalStatus){
+      finalStatus.textContent = (ok1 && ok2) ? 'ready' : 'locked';
+    }
+  }
+
+function route(){
+  var hash = window.location.hash || '';
+  var ids = ['homePage','pageA','pageB','pageC'];
+
+  // hide all pages
+  for (var i = 0; i < ids.length; i++){
+    var el = document.getElementById(ids[i]);
+    if (el) el.classList.add('hidden');
+  }
+
+  // determine which page to show
+  if (hash.indexOf('#/a') === 0){
+    document.body.classList.add('task-page');   // <-- ADD THIS
+    document.getElementById('pageA').classList.remove('hidden');
+
+  } else if (hash.indexOf('#/b') === 0){
+    document.body.classList.add('task-page');   // <-- ADD THIS
+    document.getElementById('pageB').classList.remove('hidden');
+
+  } else if (hash.indexOf('#/c') === 0){
+    document.body.classList.add('task-page');   // <-- ADD THIS
+    document.getElementById('pageC').classList.remove('hidden');
+
+  } else {
+    document.body.classList.remove('task-page'); // <-- AND THIS
+    document.getElementById('homePage').classList.remove('hidden');
+  }
+}
+
+
+  // Wire up events
+  if (p1){
+    p1.addEventListener('input', checkPuzzles);
+    p1.addEventListener('keyup', checkPuzzles);
+  }
+  if (p2){
+    p2.addEventListener('input', checkPuzzles);
+    p2.addEventListener('keyup', checkPuzzles);
+  }
+
+  if (openBtn){
+    openBtn.addEventListener('click', function(){
+      if (!openBtn.disabled){
+        setUnlocked(true);
+        if (unit && unit.scrollIntoView){
+          unit.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }
+    });
+  }
+
+  if (unlockBtn){
+    unlockBtn.addEventListener('click', function(){
+      if (isUnlocked()){
+        if (unit && unit.scrollIntoView){
+          unit.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      } else {
+        if (gate && gate.scrollIntoView){
+          gate.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }
+    });
+  }
+
+  if (resetBtn){
+    resetBtn.addEventListener('click', function(){
+      if (confirm('Reset access on this browser?')){
+        setUnlocked(false);
+      }
+    });
+  }
+
+  // NOTE: starter template download JS removed for now to avoid parsing issues.
+  // We can re-add it later once this core flow is 100% solid.
+
+  // Init
+  reflect();
+  checkPuzzles();
+  route();
+  window.addEventListener('hashchange', route);
+</script>
+
+</body>
+</html>
