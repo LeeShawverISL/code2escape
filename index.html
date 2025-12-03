@@ -972,7 +972,18 @@ Explore and analyze
     }
   }
 
+  // Close the "Task Sheet" <details> when a link inside it is clicked
+  var taskDetails = topTabs ? topTabs.querySelector('details') : null;
+  if (taskDetails){
+    var taskLinks = taskDetails.querySelectorAll('a[href^="#/"]');
+    for (var i = 0; i < taskLinks.length; i++){
+      taskLinks[i].addEventListener('click', function(){
+        taskDetails.open = false;
+      });
+    }
+  }
 
+  
   function clean(str){
     if (!str) return '';
     return str.replace(/^\s+|\s+$/g, '').toLowerCase();
