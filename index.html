@@ -352,22 +352,24 @@ body{
             <div class="inner">
               <h2 style="color: var(--err)">Summative Date</h2>
               <p id="nextSummative" class="muted">
-                Criterion A, B, & C due in ManageBac — Sunday, March ??, 21:00<br>
+                Criterion A, B, &amp; C due in ManageBac — <span data-date="finalDueDate"></span><br>
               </p>
               <h2 style="color: var(--err)">Estimated Time</h2>
               <h3>This are <i>suggested</i> due dates. Note the final due date above.</h3>
-                <b>Criterion A</b> - 5 classes<br>
-                  <ul>A3: December 05</ul>
-                  <ul>A4: December 12</ul>
-                <b>Criterion B</b> - 6 classes<br>
-                  <ul>B1: ??</ul>
-                  <ul>B2: ??</ul>
-                  <ul>B3 & B4: ??</ul>
-                <b>Criterion C</b> - 14 classes<br>
-                  <ul>C1: ??</ul>
-                  <ul>C2: ??</ul>
-                  <ul>C3: ??</ul>
-                  <ul>C4: ??</ul>
+               <b>Criterion A</b> - 5 classes<br>
+                <ul>A3: <span data-date="A3date"></span></ul>
+                <ul>A4: <span data-date="A4date"></span></ul>
+            
+              <b>Criterion B</b> - 6 classes<br>
+                <ul>B1: <span data-date="B1date"></span></ul>
+                <ul>B2: <span data-date="B2date"></span></ul>
+                <ul>B3 &amp; B4: <span data-date="B3date"></span></ul>
+            
+              <b>Criterion C</b> - 14 classes<br>
+                <ul>C1: <span data-date="C1date"></span></ul>
+                <ul>C2: <span data-date="C2date"></span></ul>
+                <ul>C3: <span data-date="C3date"></span></ul>
+                <ul>C4: <span data-date="C4date"></span></ul>
             </div>
           </div>
         </div>
@@ -519,7 +521,10 @@ body{
         <!-- Criterion pages (routed) -->
         <section id="pageA" class="hidden">
   <h2>Criterion A — Inquiring and Analysing</h2>
-<h5>Due Date: <span style="color: white;">One due date for the entire unit.</span><br>All strands due Sunday, March ??, 21:00</h5>
+  <h5>
+    Due Date: <span style="color: white;">One due date for the entire unit.</span><br>
+    All strands due <span data-date="finalDueDate"></span>
+  </h5>
 
   <!-- A2 -->
 
@@ -628,7 +633,10 @@ Explore and analyze
 
 <section id="pageB" class="hidden">
   <h2>Criterion B — Developing Ideas</h2>
-<h5>Due Date: <span style="color: white;">One due date for the entire unit.</span><br>All strands due Sunday, March ??, 21:00</h5>
+<h5>
+  Due Date: <span style="color: white;">One due date for the entire unit.</span><br>
+  All strands due <span data-date="finalDueDate"></span>
+</h5>
 
   <!-- B1 -->
 
@@ -771,7 +779,10 @@ Explore and analyze
 
 <section id="pageC" class="hidden">
   <h2>Criterion C — Creating the Solution</h2>
-<h5>Due Date: <span style="color: white;">One due date for the entire unit.</span><br>All strands due Sunday, March ??, 21:00</h5>
+<h5>
+  Due Date: <span style="color: white;">One due date for the entire unit.</span><br>
+  All strands due <span data-date="finalDueDate"></span>
+</h5>
 
 
   <!-- C1 -->
@@ -936,6 +947,32 @@ Explore and analyze
   var finalStatus = document.getElementById('finalStatus');
   var topTabs     = document.getElementById('topTabs');
 
+    // ---- DUE DATE "VARIABLES" ----
+  var dueDates = {
+    A3date: 'December 05',
+    A4date: 'December 12',
+    B1date: '??',
+    B2date: '??',
+    B3date: '??',
+    C1date: '??',
+    C2date: '??',
+    C3date: '??',
+    C4date: '??',
+    finalDueDate: 'Sunday, March ??, 21:00'
+  };
+
+  function applyDueDates(){
+    for (var key in dueDates){
+      if (!dueDates.hasOwnProperty(key)) continue;
+      var value = dueDates[key];
+      var nodes = document.querySelectorAll('[data-date="' + key + '"]');
+      for (var i = 0; i < nodes.length; i++){
+        nodes[i].textContent = value;
+      }
+    }
+  }
+
+
   function clean(str){
     if (!str) return '';
     return str.replace(/^\s+|\s+$/g, '').toLowerCase();
@@ -1081,10 +1118,13 @@ function route(){
   // We can re-add it later once this core flow is 100% solid.
 
   // Init
+  // Init
+  applyDueDates();
   reflect();
   checkPuzzles();
   route();
   window.addEventListener('hashchange', route);
+
 </script>
 
 </body>
