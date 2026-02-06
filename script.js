@@ -1,4 +1,3 @@
-  <script>
     // Simple persistence key
     var KEY = 'code_to_escape_unlocked_v1';
 
@@ -203,5 +202,3 @@
     checkPuzzles();
     route();
     window.addEventListener('hashchange', route);
-
-  </script>
