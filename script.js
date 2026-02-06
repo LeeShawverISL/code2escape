@@ -121,7 +121,7 @@
 
     function route() {
       var hash = window.location.hash || '';
-      var ids = ['homePage', 'pageA', 'pageB', 'pageC'];
+      var ids = ['homePage', 'pageA', 'pageB', 'pageC', pagemiso];
 
       // hide all pages
       for (var i = 0; i < ids.length; i++) {
@@ -141,6 +141,10 @@
       } else if (hash.indexOf('#/c') === 0) {
         document.body.classList.add('task-page');   // <-- ADD THIS
         document.getElementById('pageC').classList.remove('hidden');
+
+      } else if (hash.indexOf('#/miso') === 0) {
+        document.body.classList.add('task-page');   // <-- ADD THIS
+        document.getElementById('pagemiso').classList.remove('hidden');
 
       } else {
         document.body.classList.remove('task-page'); // <-- AND THIS
