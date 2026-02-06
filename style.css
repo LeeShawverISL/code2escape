@@ -334,5 +334,5 @@
 
 .two-column-list {
   columns: 2;
-  column-gap: 2rem;
+  column-gap: 1rem;
 }
