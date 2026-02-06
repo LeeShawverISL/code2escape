@@ -99,7 +99,7 @@
 
     function checkPuzzles() {
       var ok1 = clean(p1 && p1.value) === 'compassion';
-      var ok2 = clean(p2 && p2.value) === 'coach';
+      var ok2 = clean(p2 && p2.value) === 'gemini';
 
       if (p1Status) {
         p1Status.textContent = ok1 ? 'correct' : 'pending';

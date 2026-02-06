@@ -332,7 +332,5 @@
       font-size: 0.9rem;
     }
 
-.two-column-list {
-  columns: 2;
-  column-gap: 1rem;
-}
+.two-column-list { columns: 2; column-gap: 1rem; }
+@media (max-width: 700px) { .two-column-list { columns: 1; } }
