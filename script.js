@@ -39,6 +39,32 @@
       }
     }
 
+    function applyCountdown(){
+      var el = document.getElementById('dueDays');
+      if (!el) return;
+    
+      // Use the same source as your displayed date
+      var raw = dueDates.C3date; // e.g. '2026-03-22'
+      var due = new Date(raw);
+    
+      // If parsing failed, show placeholder
+      if (isNaN(due.getTime())){
+        el.textContent = '--';
+        return;
+      }
+    
+      // Count full days (local time), clamp at 0
+      var now = new Date();
+      due.setHours(0,0,0,0);
+      now.setHours(0,0,0,0);
+    
+      var msPerDay = 24 * 60 * 60 * 1000;
+      var days = Math.ceil((due - now) / msPerDay);
+      if (days < 0) days = 0;
+    
+      el.textContent = days;
+    }
+
     // Close the "Task Sheet" <details> when a link inside it is clicked
     var taskDetails = topTabs ? topTabs.querySelector('details') : null;
     if (taskDetails) {
@@ -231,3 +257,4 @@
     updateCountdown();
     setInterval(updateCountdown, 60 * 60 * 1000); // refresh hourly
     window.addEventListener('hashchange', route);
+
