@@ -200,7 +200,7 @@
       // If you want it to always target the NEXT May 22 automatically, say so and I'll adjust.
       var projectDue = {
         year: new Date().getFullYear(),
-        monthIndex: 4, // May = 4 (0=Jan)
+        monthIndex: 2, // May = 4 (0=Jan)
         day: 22
       };
     
