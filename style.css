@@ -52,19 +52,31 @@
       /* or another color, e.g. var(--accent-2) */
     }
 
+      /* Hide ONLY the top Status row on A/B/C pages */
+      body.task-page #statusRow { 
+        display: none !important; 
+      }
 
-    /* Hide the top Status + Hub section when viewing A, B, or C */
-    /* Hide the top Status + Hub section when viewing A, B, or C */
-    body.task-page .grid,
-    body.task-page .grid-75-25,
-    body.task-page #overview {
-      display: none !important;
-    }
+/* Keep Unit Materials visible on all pages (so do NOT hide #overview anymore) */
 
       .content li {
         padding-left: 1.5em;
         text-indent: -1.5em;
       }
+
+      /* Two-column quick links list */
+      .quick-links{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 18px;
+        padding-left: 18px; /* keeps your bullet indent feel */
+        margin: 8px 0 0 0;
+      }
+
+.quick-links li{
+  margin: 0;
+}
+
 
     h3 {
       color: var(--accent-2);
