@@ -225,8 +225,7 @@
         if (dueDays) dueDays.textContent = daysLeft;
     
         if (dueDateLabel){
-          // Keep your display simple: "May 22"
-          dueDateLabel.textContent = "May 22";
+          dueDateLabel.textContent = C3date;
         }
     
         if (duePill){
