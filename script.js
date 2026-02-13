@@ -4,8 +4,6 @@
     // Grab elements
     var gate = document.getElementById('gate');
     var unit = document.getElementById('unit');
-    var unlockBtn = document.getElementById('unlockBtn');
-    var resetBtn = document.getElementById('resetBtn');
     var p1 = document.getElementById('p1');
     var p2 = document.getElementById('p2');
     var p1Status = document.getElementById('p1Status');
@@ -114,10 +112,6 @@
         else unit.classList.add('hidden');
         unit.setAttribute('aria-hidden', unlocked ? 'false' : 'true');
       }
-      if (unlockBtn) {
-        unlockBtn.textContent = unlocked ? 'Unit is Unlocked' : 'Go to Unit';
-        unlockBtn.disabled = !unlocked;
-      }
       if (topTabs) {
         topTabs.style.display = unlocked ? 'flex' : 'none';
       }
@@ -214,13 +208,6 @@
       });
     }
 
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        if (confirm('Reset access on this browser?')) {
-          setUnlocked(false);
-        }
-      });
-    }
       // --- Countdown to May 22 ---
       // Set year explicitly so it always targets the current school year you want.
       // If you want it to always target the NEXT May 22 automatically, say so and I'll adjust.
