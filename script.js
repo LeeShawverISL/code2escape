@@ -209,7 +209,7 @@
       var now = new Date();
       var year = now.getFullYear();
     
-      var due = new Date(year, 4, 22, 23, 59, 59); // May 22 (month 4 = May)
+      var due = new Date(year, 2, 22, 23, 59, 59); // May 22 (month 4 = May)
     
       // If already past this year's May 22, roll to next year
       if (now.getTime() > due.getTime()){
