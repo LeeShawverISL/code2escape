@@ -257,4 +257,6 @@
     reflect();
     checkPuzzles();
     route();
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 60 * 1000); // refresh hourly
     window.addEventListener('hashchange', route);
