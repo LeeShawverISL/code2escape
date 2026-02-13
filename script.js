@@ -4,6 +4,7 @@
     // Grab elements
     var gate = document.getElementById('gate');
     var unit = document.getElementById('unit');
+    var unlockBtn = document.getElementById('unlockBtn');
     var p1 = document.getElementById('p1');
     var p2 = document.getElementById('p2');
     var p1Status = document.getElementById('p1Status');
@@ -21,7 +22,7 @@
       B3date: 'February 01',
       C1date: 'February 03',
       C2date: 'March 22',
-      C3date: 'March 22',
+      C3date: 'March 22, 2026',
       C4date: 'March 27',
       finalDueDate: 'Sunday, March 29, 21:00'
     };
@@ -141,7 +142,7 @@
 
     function route() {
       var hash = window.location.hash || '';
-      var ids = ['homePage', 'pageA', 'pageB', 'pageC', pagemiso];
+      var ids = ['homePage', 'pageA', 'pageB', 'pageC', 'pagemiso'];
 
       // hide all pages
       for (var i = 0; i < ids.length; i++) {
@@ -207,41 +208,10 @@
         }
       });
     }
-
-      // --- Countdown to May 22 ---
-      // Set year explicitly so it always targets the current school year you want.
-      // If you want it to always target the NEXT May 22 automatically, say so and I'll adjust.
-      var projectDue = {
-        year: new Date().getFullYear(),
-        monthIndex: 2, // May = 4 (0=Jan)
-        day: 22
-      };
-    
-    // --- Countdown to May 22 ---
-    function updateCountdown(){
-      var now = new Date();
-      var year = now.getFullYear();
-    
-      var due = new Date(year, 2, 22, 23, 59, 59); // May 22 (month 4 = May)
-    
-      // If already past this year's May 22, roll to next year
-      if (now.getTime() > due.getTime()){
-        due = new Date(year + 1, 4, 22, 23, 59, 59);
-      }
-    
-      var ms = due.getTime() - now.getTime();
-      var daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
-    
-      var dueDays = document.getElementById('dueDays');
-      if (dueDays){
-        dueDays.textContent = daysLeft;
-      }
-    }      
     applyDueDates();
+    applyCountdown();
     reflect();
     checkPuzzles();
     route();
-    updateCountdown();
-    setInterval(updateCountdown, 60 * 60 * 1000); // refresh hourly
     window.addEventListener('hashchange', route);
 
