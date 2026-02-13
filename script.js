@@ -204,54 +204,26 @@
         day: 22
       };
     
-      function updateCountdown(){
-        var now = new Date();
+    // --- Countdown to May 22 ---
+    function updateCountdown(){
+      var now = new Date();
+      var year = now.getFullYear();
     
-        // Due at end-of-day local time (23:59:59)
-        var due = new Date(projectDue.year, projectDue.monthIndex, projectDue.day, 23, 59, 59);
+      var due = new Date(year, 4, 22, 23, 59, 59); // May 22 (month 4 = May)
     
-        // If we're already past May 22 this year, automatically roll to next year
-        if (now.getTime() > due.getTime()){
-          due = new Date(projectDue.year + 1, projectDue.monthIndex, projectDue.day, 23, 59, 59);
-        }
-    
-        var ms = due.getTime() - now.getTime();
-        var daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
-    
-        var dueDays = document.getElementById('dueDays');
-        var duePill = document.getElementById('duePill');
-        var dueDateLabel = document.getElementById('dueDateLabel');
-    
-        if (dueDays) dueDays.textContent = daysLeft;
-    
-        if (dueDateLabel){
-          dueDateLabel.textContent = C3date;
-        }
-    
-        if (duePill){
-          if (daysLeft > 14){
-            duePill.textContent = "on track";
-            duePill.style.background = "rgba(34,211,238,.15)";
-            duePill.style.color = "var(--accent)";
-            duePill.style.borderColor = "rgba(34,211,238,.35)";
-          } else if (daysLeft > 3){
-            duePill.textContent = "coming up";
-            duePill.style.background = "rgba(245,158,11,.15)";
-            duePill.style.color = "var(--warn)";
-            duePill.style.borderColor = "rgba(245,158,11,.35)";
-          } else if (daysLeft >= 0){
-            duePill.textContent = "urgent";
-            duePill.style.background = "rgba(248,113,113,.15)";
-            duePill.style.color = "var(--err)";
-            duePill.style.borderColor = "rgba(248,113,113,.35)";
-          } else {
-            duePill.textContent = "past due";
-            duePill.style.background = "rgba(248,113,113,.15)";
-            duePill.style.color = "var(--err)";
-            duePill.style.borderColor = "rgba(248,113,113,.35)";
-          }
-        }
+      // If already past this year's May 22, roll to next year
+      if (now.getTime() > due.getTime()){
+        due = new Date(year + 1, 4, 22, 23, 59, 59);
       }
+    
+      var ms = due.getTime() - now.getTime();
+      var daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
+    
+      var dueDays = document.getElementById('dueDays');
+      if (dueDays){
+        dueDays.textContent = daysLeft;
+      }
+    }      
     applyDueDates();
     reflect();
     checkPuzzles();
