@@ -12,6 +12,7 @@ var p2Status = document.getElementById('p2Status');
 var openBtn = document.getElementById('openBtn');
 var finalStatus = document.getElementById('finalStatus');
 var topTabs = document.getElementById('topTabs');
+var unlockBtn = document.getElementById('unlockBtn');
 
 // ---- DUE DATE "VARIABLES" ----
 var dueDates = {
@@ -179,7 +180,7 @@ function checkPuzzles() {
 
 function route() {
   var hash = window.location.hash || '';
-  var ids = ['homePage', 'pageA', 'pageB', 'pageC', pagemiso];
+  var ids = ['homePage', 'pageA', 'pageB', 'pageC', 'pagemiso'];
 
   // hide all pages
   for (var i = 0; i < ids.length; i++) {
