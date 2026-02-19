@@ -27,12 +27,12 @@ var dueDates = {
   finalDueDate: 'Sunday, March 29, 21:00'
 };
 
-// --- Countdown to May 22 ---
+// --- Countdown to Mar 22 ---
 // Set year explicitly so it always targets the current school year you want.
-// If you want it to always target the NEXT May 22 automatically, say so and I'll adjust.
+// If you want it to always target the NEXT Mar 22 automatically, say so and I'll adjust.
 var projectDue = {
   year: new Date().getFullYear(),
-  monthIndex: 4, // May = 4 (0=Jan)
+  monthIndex: 2, // Mar = 4 (0=Jan)
   day: 22
 };
 
@@ -42,7 +42,7 @@ function updateCountdown() {
   // Due at end-of-day local time (23:59:59)
   var due = new Date(projectDue.year, projectDue.monthIndex, projectDue.day, 23, 59, 59);
 
-  // If we're already past May 22 this year, automatically roll to next year
+  // If we're already past Mar 22 this year, automatically roll to next year
   if (now.getTime() > due.getTime()) {
     due = new Date(projectDue.year + 1, projectDue.monthIndex, projectDue.day, 23, 59, 59);
   }
@@ -57,8 +57,8 @@ function updateCountdown() {
   if (dueDays) dueDays.textContent = daysLeft;
 
   if (dueDateLabel) {
-    // Keep your display simple: "May 22"
-    dueDateLabel.textContent = "May 22";
+    // Keep your display simple: "March 22"
+    dueDateLabel.textContent = "March 22";
   }
 
   if (duePill) {
