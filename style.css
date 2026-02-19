@@ -83,8 +83,9 @@ body.task-page #statusRow {
 
 /* Two-column quick links */
 .quick-links {
-  columns: 2;
-  column-gap: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 24px;
   list-style: none;
   padding-left: 0;
 }
