@@ -12,7 +12,6 @@ var p2Status = document.getElementById('p2Status');
 var openBtn = document.getElementById('openBtn');
 var finalStatus = document.getElementById('finalStatus');
 var topTabs = document.getElementById('topTabs');
-var unlockBtn = document.getElementById('unlockBtn');
 
 // ---- DUE DATE "VARIABLES" ----
 var dueDates = {
@@ -108,7 +107,6 @@ if (taskDetails) {
     });
   }
 }
-
 
 function clean(str) {
   if (!str) return '';
