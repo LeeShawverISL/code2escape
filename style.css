@@ -63,38 +63,34 @@ body.task-page #statusRow {
   text-indent: -1.5em;
 }
 
-/* Two-column quick links list */
-.quick-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px 18px;
-  padding-left: 18px;
-  /* keeps your bullet indent feel */
-  margin: 8px 0 0 0;
-}
-
-.quick-links li {
-  margin: 0;
-}
-
 .unit-materials-row {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: stretch;
   margin-top: 12px;
 }
 
+/* LEFT COLUMN */
 .unit-links {
   flex: 2;
 }
 
+/* RIGHT COLUMN */
 .countdown-box {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-width: 200px;
+  min-width: 220px;
+}
+
+/* Two-column quick links */
+.quick-links {
+  columns: 2;
+  column-gap: 40px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.quick-links li {
+  margin-bottom: 8px;
 }
 
 @media (max-width: 900px) {
