@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -68,9 +69,10 @@
               <h3 style="margin:0 0 6px 0">Puzzle 1 — Hidden in plain sight</h3>
               <p class="muted">
                 Your first clue is found in the Google Doc titled "
-                <a class="toc" href="https://docs.google.com/document/d/1gmx1pt9fkmVLVMZ7EE6nl6_hDNibrLwSXLhh_71l-Lc/edit?tab=t.0" 
-                target="_blank" rel="noopener">
-                TASK SHEET - MYP4 Design Unit 2 - Code 2 Escape</a>"
+                <a class="toc"
+                  href="https://docs.google.com/document/d/1gmx1pt9fkmVLVMZ7EE6nl6_hDNibrLwSXLhh_71l-Lc/edit?tab=t.0"
+                  target="_blank" rel="noopener">
+                  TASK SHEET - MYP4 Design Unit 2 - Code 2 Escape</a>"
               </p>
               <div class="input">
                 <input id="p1" type="text" placeholder="your answer (one word)" autocomplete="off" />
@@ -184,39 +186,44 @@
         </div>
         
         <div class="kicker">Unit Materials</div>
-        <h2 id="overview">Code 2 Escape — Unit Hub</h2>
-        
-        <div class="grid-75-25" style="margin-top:12px;">
-        
-          <!-- LEFT: Quick Links -->
-          <div>
-            <div class="toc">
-              <strong>Quick Links:</strong>
-              <ul class="quick-links">
-                <li><strong><a href="https://docs.google.com/presentation/d/14cAviM0xdVDxOSQMRnEG8FMjnreaxVcr3jpThUfdboU/present?slide=id.g3a9f75382b0_0_0" target="_blank" rel="noopener">Daily Coding Exercises</a></strong></li>
-                <li><a href="https://docs.google.com/document/d/106rByQLSV7jIWoMztV616A57EC3M0A2o_UFxZfxF9cM/edit?usp=sharing" target="_blank" rel="noopener">ISL Apocalypse Story</a></li>
-                <li><a href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing" target="_blank" rel="noopener">AI Coding Coach</a></li>
-                <li><a href="https://docs.google.com/presentation/d/10DWrv67lRLpi0XOIn-vhkEsXtpdRZHYGxte5eNOKAM0/edit?usp=sharing" target="_blank" rel="noopener">GitHub Workflow</a></li>
-                <li><a href="https://drive.google.com/drive/folders/1AWpKgeKhDConvmSkHzbefNHYWtPSeAJg?usp=sharing" target="_blank" rel="noopener">Portfolio Templates</a></li>
-                <li><a href="https://gemini.google.com/gem/12ibXyxKyjLlCFF7U1kBRNKXlQAQpGQHT?usp=sharing" target="_blank" rel="noopener">Feedback ChatBot</a></li>
-                <li><a href="https://drive.google.com/drive/folders/1CMtfWd0kRdW4hy1_82mYGh0q_JQNgOfc?usp=sharing" target="_blank" rel="noopener">ISL Campus Photos</a></li>
-              </ul>
-            </div>
-          </div>
-        
-          <!-- RIGHT: Countdown Card -->
-          <div class="card">
-            <div class="inner">
-              <div class="kicker">Deadline</div>
+        <div class="card" style="margin:12px 0 18px 0;">
+          <div class="inner"
+            style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <div class="kicker" style="font-size:12px;">Countdown</div>
               <h2 style="margin:6px 0 0 0;">
                 Project due in <span id="dueDays">--</span> days
               </h2>
-              <p class="muted" style="margin-top:6px;">
-                Due: <span data-date="C3date"></span>
+              <p class="muted" style="margin:6px 0 0 0;">
+                Due date: <span id="dueDateLabel">May 22</span>
               </p>
             </div>
+            <span id="duePill" class="pill">loading…</span>
           </div>
-        
+        </div>
+        <h2 id="overview">Code 2 Escape — Unit Hub</h2>
+
+        <div class="toc" style="margin:10px 0 18px 0">
+          <strong>Quick Links:</strong>
+          <ul class="two-column-list">
+            <li><strong><a
+                  href="https://docs.google.com/presentation/d/14cAviM0xdVDxOSQMRnEG8FMjnreaxVcr3jpThUfdboU/present?slide=id.g3a9f75382b0_0_0"
+                  target="_blank" rel="noopener">Daily Coding Exercises</a></strong></li>
+            <li><a
+                href="https://docs.google.com/document/d/106rByQLSV7jIWoMztV616A57EC3M0A2o_UFxZfxF9cM/edit?usp=sharing"
+                target="_blank" rel="noopener">ISL Apocalypse Story</a></li>
+            <li><a href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing" target="_blank"
+                rel="noopener">AI Coding Coach</a></li>
+            <li><a href="https://docs.google.com/presentation/d/10DWrv67lRLpi0XOIn-vhkEsXtpdRZHYGxte5eNOKAM0/edit?usp=sharing" target="_blank" rel="noopener">GitHub Workflow</a></li>
+            <li><a href="https://drive.google.com/drive/folders/1AWpKgeKhDConvmSkHzbefNHYWtPSeAJg?usp=sharing"
+                target="_blank" rel="noopener">Portfolio Templates</a></li>
+            <li><a href="https://gemini.google.com/gem/12ibXyxKyjLlCFF7U1kBRNKXlQAQpGQHT?usp=sharing" target="_blank"
+                rel="noopener">Feedback ChatBot</a></li>
+            <li><a href="https://drive.google.com/drive/folders/1CMtfWd0kRdW4hy1_82mYGh0q_JQNgOfc?usp=sharing"
+                target="_blank" rel="noopener">ISL Campus Photos</a></li>
+            <li><a href="https://classroom.github.com/a/8ytU1dAJ" target="_blank" rel="noopener">Join GitHub
+                Classroom</a></li>
+          </ul>
         </div>
 
         <section id="homePage">
@@ -369,9 +376,8 @@
           <article id="coach">
             <h3>AI Coding Coach</h3>
             <p class="muted">
-              <a class="toc"
-              href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing">
-              This AI Chatbot</a> 
+              <a class="toc" href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing">
+                This AI Chatbot</a>
               is trained to be your coding guide for this unit. You are in charge. Good questions get
               good answers. Gemini <i>will not</i> write code for you. You must be a problem solver.
             </p>
@@ -576,7 +582,7 @@
                 target="_blank" rel="noopener">
                 ISL Apocalypse narrative</a>?<br>
               Solving your puzzle MUST give the user a letter for the final room.
-              See the 
+              See the
               <a class="toc"
                 href"https://docs.google.com/document/d/106rByQLSV7jIWoMztV616A57EC3M0A2o_UFxZfxF9cM/edit?usp=sharing"
                 target="_blank" rel="noopener">ISL Apocalypse Story</a>
@@ -859,11 +865,11 @@
 
           <p><strong>Task:</strong><br>
             Collaborate with your partner and with
-          <a class="toc" style="margin:10px 0 18px 0">
-            <a href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing">Gemini AI</a>
-          </a>
-          to turn your design into a working coded product using HTML, CSS, and JavaScript. Focus on
-          writing clean, readable code and using your plan from C1 to guide your work.
+            <a class="toc" style="margin:10px 0 18px 0">
+              <a href="https://gemini.google.com/gem/1KKYlj_WXU0XOyK3eF3RZcTbbsyQ9-Srg?usp=sharing">Gemini AI</a>
+            </a>
+            to turn your design into a working coded product using HTML, CSS, and JavaScript. Focus on
+            writing clean, readable code and using your plan from C1 to guide your work.
           </p>
 
           <p class="muted">
@@ -954,17 +960,26 @@
           <header>
             <h1>Criterion A — A4: Design Brief</h1>
             <p>
-              <strong>Task:</strong> In your new portfolio (linked below) in the section titled <strong>A4: Design Brief</strong>, write a short design brief explaining the focus of the unit and your specific role.
-              Keep your work to <strong>one page max</strong>. Use <strong>“we”</strong> for class goals and <strong>“I”</strong> for your goal. 
-              Spend some time reviewing the links above and the <a href="#homepage">Unit Overview</a>, then organize your writing.
+              <strong>Task:</strong> In your new portfolio (linked below) in the section titled <strong>A4: Design
+                Brief</strong>, write a short design brief explaining the focus of the unit and your specific role.
+              Keep your work to <strong>one page max</strong>. Use <strong>“we”</strong> for class goals and
+              <strong>“I”</strong> for your goal.
+              Spend some time reviewing the links above and the <a href="#homepage">Unit Overview</a>, then organize
+              your writing.
             </p>
 
             <div class="links">
               <p>
                 <strong>Links:</strong><br />
-                <a class="toc" href="https://docs.google.com/document/d/1pkCWhCbznf8grUXfpbIdRl7z142Zz7Y3gI99qHiWd6o/edit?tab=t.0" target="_blank" rel="noopener">Bits &amp; Bytes info</a> |
-                <a class="toc" href="https://docs.google.com/document/d/13xhigZOotBNmDfeeOEQAepzStGmuRAkCX9X9IAfuURs/edit?usp=sharing" target="_blank" rel="noopener">Miso's portfolio</a> |
-                <a class="toc" href="https://docs.google.com/document/d/106rByQLSV7jIWoMztV616A57EC3M0A2o_UFxZfxF9cM/edit?usp=sharing" target="_blank" rel="noopener">ISL Apocalypse story page</a>
+                <a class="toc"
+                  href="https://docs.google.com/document/d/1pkCWhCbznf8grUXfpbIdRl7z142Zz7Y3gI99qHiWd6o/edit?tab=t.0"
+                  target="_blank" rel="noopener">Bits &amp; Bytes info</a> |
+                <a class="toc"
+                  href="https://docs.google.com/document/d/13xhigZOotBNmDfeeOEQAepzStGmuRAkCX9X9IAfuURs/edit?usp=sharing"
+                  target="_blank" rel="noopener">Miso's portfolio</a> |
+                <a class="toc"
+                  href="https://docs.google.com/document/d/106rByQLSV7jIWoMztV616A57EC3M0A2o_UFxZfxF9cM/edit?usp=sharing"
+                  target="_blank" rel="noopener">ISL Apocalypse story page</a>
               </p>
             </div>
           </header>
@@ -979,7 +994,8 @@
           <section id="bits-bytes">
             <h2>2. Bits &amp; Bytes</h2>
             <p>
-              Explain how this project connects to Bits &amp; Bytes. Mention that the final escape room will be published as a public link for others to play.
+              Explain how this project connects to Bits &amp; Bytes. Mention that the final escape room will be
+              published as a public link for others to play.
             </p>
           </section>
 
@@ -998,7 +1014,8 @@
           <section id="my-goal">
             <h2>4. My Goal (I)</h2>
             <p>
-              Clearly state your individual focus. Your goal is to design and develop the <strong>landing page</strong> for the class-wide escape room.
+              Clearly state your individual focus. Your goal is to design and develop the <strong>landing page</strong>
+              for the class-wide escape room.
               You do not need to plan the page yet — detailed planning happens in Criterion B.
             </p>
           </section>
