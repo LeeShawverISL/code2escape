@@ -73,6 +73,8 @@ body.task-page #statusRow {
 /* LEFT COLUMN */
 .unit-links {
   flex: 2;
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 /* RIGHT COLUMN */
