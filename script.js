@@ -32,7 +32,7 @@ var dueDates = {
 // If you want it to always target the NEXT Mar 22 automatically, say so and I'll adjust.
 var projectDue = {
   year: new Date().getFullYear(),
-  monthIndex: 2, // Mar = 4 (0=Jan)
+  monthIndex: 2, // Mar = 2 (0=Jan)
   day: 22
 };
 
@@ -51,7 +51,6 @@ function updateCountdown() {
   var daysLeft = Math.ceil(ms / (1000 * 60 * 60 * 24));
 
   var dueDays = document.getElementById('dueDays');
-  var duePill = document.getElementById('duePill');
   var dueDateLabel = document.getElementById('dueDateLabel');
 
   if (dueDays) dueDays.textContent = daysLeft;
@@ -59,30 +58,6 @@ function updateCountdown() {
   if (dueDateLabel) {
     // Keep your display simple: "March 22"
     dueDateLabel.textContent = "March 22";
-  }
-
-  if (duePill) {
-    if (daysLeft > 14) {
-      duePill.textContent = "on track";
-      duePill.style.background = "rgba(34,211,238,.15)";
-      duePill.style.color = "var(--accent)";
-      duePill.style.borderColor = "rgba(34,211,238,.35)";
-    } else if (daysLeft > 3) {
-      duePill.textContent = "coming up";
-      duePill.style.background = "rgba(245,158,11,.15)";
-      duePill.style.color = "var(--warn)";
-      duePill.style.borderColor = "rgba(245,158,11,.35)";
-    } else if (daysLeft >= 0) {
-      duePill.textContent = "urgent";
-      duePill.style.background = "rgba(248,113,113,.15)";
-      duePill.style.color = "var(--err)";
-      duePill.style.borderColor = "rgba(248,113,113,.35)";
-    } else {
-      duePill.textContent = "past due";
-      duePill.style.background = "rgba(248,113,113,.15)";
-      duePill.style.color = "var(--err)";
-      duePill.style.borderColor = "rgba(248,113,113,.35)";
-    }
   }
 }
 
