@@ -81,13 +81,17 @@ body.task-page #statusRow {
   min-width: 220px;
 }
 
-/* Two-column quick links */
+/* Two-column quick links layout */
 .quick-links {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px 24px;
   list-style: none;
   padding-left: 0;
+}
+
+/* Style the actual links */
+.quick-links a {
   color: var(--accent);
   text-decoration: underline;
 }
