@@ -149,7 +149,7 @@ function checkPuzzles() {
 
 function route() {
   var hash = window.location.hash || '';
-  var ids = ['homePage', 'pageA', 'pageB', 'pageC', 'pagemiso'];
+  var ids = ['homePage', 'pageA', 'pageB', 'pageC', 'pagereflection', 'pagemiso'];
 
   for (var i = 0; i < ids.length; i++) {
     var el = document.getElementById(ids[i]);
@@ -167,6 +167,10 @@ function route() {
   else if (hash.indexOf('#/c') === 0) {
     document.body.classList.add('task-page');
     document.getElementById('pageC').classList.remove('hidden');
+  }
+  else if (hash.indexOf('#/reflection') === 0) {
+    document.body.classList.add('task-page');
+    document.getElementById('pagereflection').classList.remove('hidden');
   } 
   else if (hash.indexOf('#/miso') === 0) {
     document.body.classList.add('task-page');
