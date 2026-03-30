@@ -416,9 +416,22 @@ td {
   font-weight: 800;
   color: var(--err);
   margin-top: 4px;
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
 }
 
 /* Descriptor column */
 .strand-descriptor {
   flex: 1;
+}
+
+.prohibited {
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
 }
